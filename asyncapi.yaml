@@ -1,0 +1,93 @@
+asyncapi: 3.0.0
+info:
+  title: Skybolt Lightning Retrieval Service
+  version: 1.0.0
+  description: Realtime lightning strike data delivery via WebSockets.
+
+servers:
+  global:
+    host: api.skybolt.dev
+    pathname: /v1/wss/global
+    protocol: wss
+    description: Provides global realtime lightning strike data.
+    security:
+      - $ref: "#/components/securitySchemes/bearerAuth"
+  conus:
+    host: api.skybolt.dev
+    pathname: /v1/wss/conus
+    protocol: wss
+    description: Provides realtime lightning strike data for the Continental United States (CONUS) only.
+    security:
+      - $ref: "#/components/securitySchemes/bearerAuth"
+
+channels:
+  lightningDataGlobal:
+    address: /v1/wss/global
+    description: This channel provides global realtime lightning strike data.
+    messages:
+      lightningStrike:
+        $ref: "#/components/messages/LightningStrike"
+  lightningDataConus:
+    address: /v1/wss/conus
+    description: This channel provides realtime lightning strike data for the Continental United States (CONUS) only.
+    messages:
+      lightningStrike:
+        $ref: "#/components/messages/LightningStrike"
+
+operations:
+  receiveGlobalLightning:
+    action: receive
+    channel:
+      $ref: "#/channels/lightningDataGlobal"
+    description: Receive global lightning strike data.
+  receiveConusLightning:
+    action: receive
+    channel:
+      $ref: "#/channels/lightningDataConus"
+    description: Receive CONUS-specific lightning strike data.
+
+components:
+  messages:
+    LightningStrike:
+      summary: A single lightning strike event.
+      examples:
+        - summary: Example lightning strike data
+          payload:
+            timestamp: 1678886400
+            lat: 34.0522
+            lon: -118.2437
+            pol: 0
+      payload:
+        type: object
+        properties:
+          time:
+            type: integer
+            format: int64
+            description: Unix timestamp of the lightning strike.
+            example: 1678886400
+          lat:
+            type: number
+            format: float
+            description: Latitude of the lightning strike.
+            example: 34.0522
+          lon:
+            type: number
+            format: float
+            description: Longitude of the lightning strike.
+            example: -118.2437
+          pol:
+            type: integer
+            enum: [0, 1]
+            description: Polarity of the lightning strike (0 for negative, 1 for positive).
+            example: 0
+        required:
+          - timestamp
+          - lat
+          - lon
+          - pol
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: string
+      description: Bearer token for authentication.

@@ -1,97 +1,29 @@
 ---
 title: "Introduction"
-description: "Welcome to the new home for your documentation"
+description: "Welcome to the Skybolt documentation! Here you will find everything you need to know to get started with Skybolt."
 ---
 
-## Setting up
+## Getting Started
 
-Get your documentation site up and running in minutes.
+After signing up, you will be redirected to the dashboard. From there, you can manage your subscription and access your API keys.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+Using your API key, you can start making requests to the Skybolt API. There are two primary WebSocket endpoints available:
 
-## Make it yours
+- **/wss/global**: This endpoint provides access to global realtime lightning data.
+- **/wss/conus**: This endpoint provides access to realtime lightning data for the continental United States.
 
-Design a docs site that looks great and empowers your users.
+These endpoints are documented in detail in the [API Reference](/api-reference/websockets/lightningdataglobal).
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+#### Connection Limits
 
-## Create beautiful pages
+Users on the Personal plan are limited to 1 concurrent WebSocket connection. Users on the Professional plan may create unlimited concurrent WebSocket connections.
 
-Everything you need to create world-class documentation.
+There are no limits on the number of events sent over the WebSocket connection.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Authentication
 
-## Need inspiration?
+To authenticate your requests, you need to include your API key in the `Authorization` header of your requests. The header should look like this:
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+```
+Authorization: Bearer <YOUR_API_KEY>
+```
